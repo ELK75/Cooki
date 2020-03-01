@@ -62,6 +62,11 @@ p {
   text-align: center;
 }
 
+.center-items {
+  display: flex;
+  justify-content: center;
+}
+
 .mx-auto {
   margin: 0 auto;
 }
@@ -75,5 +80,42 @@ p {
 }
 
 .color-main {
-  color: #19a974;
+  color: #1890ff;
+}
+
+.color-main-bg {
+  background: #1890ff;
+}
+
+
+.color1 {
+  color: rgba(250, 243, 221, 1);  
+}
+.color2 {
+  color: rgba(200, 213, 185, 1);  
+}
+.color3 {
+  color: rgba(143, 192, 169, 1);  
+}
+.color4 {
+  color: rgba(104, 176, 171, 1);  
+}
+.color5 {
+  color: rgba(74, 124, 89, 1);  
+}
+
+.color1-bg {
+  background: rgba(250, 243, 221, 1);  
+}
+.color2-bg {
+  background: rgba(200, 213, 185, 1);  
+}
+.color3-bg {
+  background: rgba(143, 192, 169, 1);  
+}
+.color4-bg {
+  background: rgba(104, 176, 171, 1);  
+}
+.color5-bg {
+  background: rgba(74, 124, 89, 1);  
 }

@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import {Layout} from 'antd';
-const {Header, Content, Footer} = Layout;
+import Navbar from './Navbar';
+
 
 export default (props) => {
     return (
@@ -12,23 +12,15 @@ export default (props) => {
                 <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet" />
             </Head>
             <body className='h-100'>
-                <Layout className='h-100'>
-                    <Header className='header color-main'><h4 className='header-contents'>Cooki</h4></Header>
-                    <Layout>
-                        <Content>{props.children}</Content>
-                    </Layout>
-                    <Footer></Footer>
-                </Layout>  
+                <div className='h-100'>
+                    <Navbar />
+                    {props.children}
+                </div>  
             </body>
 
             <style jsx>{`
                 .h-100 {
                     height: 100%;
-                }
-
-                .header-contents {
-                    color: white;
-                    font-weight: 100;
                 }
         `}</style>
         </html>
