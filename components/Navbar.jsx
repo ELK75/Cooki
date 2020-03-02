@@ -6,7 +6,7 @@ export default () => (
             <Col span={8}>
                 <Row className="center-items mt1">
                     <img className="main-logo" src="/assets/cookie.svg" alt="Cooki Logo" />
-                    <div className="font-100 logo-text mt0">Cooki</div>
+                    <div className="font-300 logo-text mt0">Cooki</div>
                 </Row>
             </Col>
             <Col span={8}>
@@ -18,7 +18,7 @@ export default () => (
             <Col span={8}>
                 <Row className="login-items center-items">
                     <a href="/login">Login</a>
-                    <Button className="singup-btn" href="/signup">Signup</Button>
+                    <a href="/signup">Signup</a>
                 </Row>
             </Col>
         </Row>
@@ -64,11 +64,6 @@ export default () => (
 
         .login-items a:hover {
             color: #1890ff;
-        }
-
-        .signup-btn {
-            font-size: 22px;
-            padding: 5px;
         }
         `}</style>
     </div>
