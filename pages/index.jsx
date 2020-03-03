@@ -4,6 +4,7 @@ import {
   Col,
   Layout,
   Card,
+  Button
 } from 'antd';
 import Link from 'next/link'
 import '../assets/styles.less';
@@ -61,23 +62,18 @@ export default () => (
         <Content>
           <div className="cover-image">
             <img alt="cover image" src="cover.jpg" />
-            {/* <Carousel autoplay>
-              <div>
-                <h3>
-                  {/* <img src="1.jpg" /> */}
-                {/* </h3> */}
-              {/* </div> */}
-              {/* <div> */}
-                {/* <h3> */}
-                  {/* <img src="2.jpg" /> */}
-                {/* </h3> */}
-              {/* </div> */}
-              {/* <div> */}
-                {/* <h3> */}
-                  {/* <img src="3.jpg" /> */}
-                {/* </h3> */}
-              {/* </div> */}
-            {/* </Carousel> */}
+            <div className="image-text-container">
+              <Row className="image-text-row" justify="center">
+                <h1>Welcome to</h1>
+                <img src="cookie.svg" alt="Cooki Logo" />
+                <h1>Cooki</h1>
+              </Row>
+
+              <h3>Cooki is the quick and easy way to get recipes that suit your needs. Login or Signup below to get recipes that cater to you.</h3>
+              <Row justify="center" className="signup-row">
+                <Button>Login or Signup</Button>
+              </Row>
+            </div>
           </div>
           <Row gutter={16}>
             <Col span={6} md={6} sm={12} xs={24}>
