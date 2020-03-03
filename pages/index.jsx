@@ -7,7 +7,7 @@ import {
   Button
 } from 'antd';
 import Link from 'next/link'
-import '../assets/styles.less';
+import '../styles/styles.less';
 
 const {
   Header, Content,
