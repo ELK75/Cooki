@@ -6,142 +6,40 @@ import {
   Card,
   Button
 } from 'antd';
-import Link from 'next/link'
+import fetch from 'isomorphic-unfetch';
 import '../styles/styles.less';
 
-const {
-  Header, Content,
-} = Layout;
+const { Content } = Layout;
 
-export default () => (
-  <Layout>
-    <Header>
+import Header from  '../components/Header';
+import Navbar from '../components/Navbar';
+
+export default function Index() {
+  return (
+    <Layout>
+      <Header />
+      <Navbar />
       <Row justify="space-around" type="flex">
-        <Col span={20}>
-          <Row justify="space-around" type="flex">
-            <Col span={12} md={12} xs={24}>
-              <span className="brand">
-                <img className="main-logo" src="cookie.svg" alt="Cooki Logo" />
-                Cooki
-              </span>
-            </Col>
-            <Col span={12} md={12} xs={0}>
-              <span className="ml-30 float-right"><Icon type="phone" theme="filled" /></span>
-            </Col>
-          </Row>
+        <Col span={20} style={{ paddingTop: '10px', paddingBottom: '30px', minHeight: '500px' }}>
+          <Content>
+            <div className="cover-image">
+              <img alt="cover image" src="cover.jpg" />
+              <div className="image-text-container">
+                <Row className="image-text-row" justify="center">
+                  <h1>Welcome to</h1>
+                  <img src="cookie.svg" alt="Cooki Logo" />
+                  <h1>Cooki</h1>
+                </Row>
+
+                <h3>Cooki is the quick and easy way to get recipes that suit your needs. Login or Signup below to get recipes that cater to you.</h3>
+                <Row justify="center" className="signup-row">
+                  <Button>Login or Signup</Button>
+                </Row>
+              </div>
+            </div>
+          </Content>
         </Col>
       </Row>
-    </Header>
-    <Row justify="space-around" type="flex">
-      <Col span={20} style={{ textAlign: 'right', height: 50, display: 'flex', justifyContent: 'flex-end', textTransform: 'uppercase' }}>
-        <div style={{ width: 'fit-content', margin: 'auto 0px' }}>
-          <Link href="/">
-            <a>
-              Home
-            </a>
-          </Link>
-        </div>
-        <div style={{ width: 'fit-content', margin: 'auto 0px' }}>
-          <Link href="/">
-            <a>
-              About Us
-            </a>
-          </Link>
-        </div>
-        <div style={{ width: 'fit-content', margin: 'auto 0px' }}>
-          <Link href="/">
-            <a>
-              Login / Signup
-            </a>
-          </Link>
-        </div>
-      </Col>
-    </Row>
-    <Row justify="space-around" type="flex">
-      <Col span={20} style={{ paddingTop: '10px', paddingBottom: '30px', minHeight: '500px' }}>
-        <Content>
-          <div className="cover-image">
-            <img alt="cover image" src="cover.jpg" />
-            <div className="image-text-container">
-              <Row className="image-text-row" justify="center">
-                <h1>Welcome to</h1>
-                <img src="cookie.svg" alt="Cooki Logo" />
-                <h1>Cooki</h1>
-              </Row>
-
-              <h3>Cooki is the quick and easy way to get recipes that suit your needs. Login or Signup below to get recipes that cater to you.</h3>
-              <Row justify="center" className="signup-row">
-                <Button>Login or Signup</Button>
-              </Row>
-            </div>
-          </div>
-          <Row gutter={16}>
-            <Col span={6} md={6} sm={12} xs={24}>
-              <Card
-                hoverable
-                cover={
-                  <img alt="image1" style={{ width: '100%' }} src="1.jpg" />
-                }
-              >
-                <Card.Meta
-                  title="Menu 1"
-                  description="Description 1"
-                />
-              </Card>
-            </Col>
-            <Col span={6} md={6} sm={12} xs={24}>
-              <Card
-                hoverable
-                cover={
-                  <img alt="image2" style={{ width: '100%' }} src="2.jpg" />}
-              >
-                <Card.Meta
-                  title="Menu 2"
-                  description="Description 2"
-                />
-              </Card>
-            </Col>
-            <Col span={6} md={6} sm={12} xs={24}>
-              <Card
-                hoverable
-                cover={
-                  <img alt="image3" style={{ width: '100%' }} src="3.jpg" />}
-              >
-                <Card.Meta
-                  title="Menu 3"
-                  description="Description 3"
-                />
-              </Card>
-            </Col>
-            <Col span={6} md={6} sm={12} xs={24}>
-              <Card
-                hoverable
-                cover={
-                  <img alt="image4" style={{ width: '100%' }} src="4.jpg" />}
-              >
-                <Card.Meta
-                  title="Menu 4"
-                  description="Description 4"
-                />
-              </Card>
-            </Col>
-          </Row>
-        </Content>
-      </Col>
-    </Row>
-    <Row justify="space-around" type="flex" style={{ background: '#f9f9f9' }}>
-      <Col md={8} xs={20} style={{ height: '40px', display: 'flex' }}>
-        <div style={{ margin: 'auto 0px' }}>
-          Cooki 2020
-                </div>
-      </Col>
-      <Col md={8} xs={20}>
-        <div style={{ margin: 'auto', height: '40px', display: 'flex', justifyContent: 'flex-end' }}>
-          <Icon style={{ margin: 'auto 10px', fontSize: 20 }} type="facebook" />
-          <Icon style={{ margin: 'auto 10px', fontSize: 20 }} type="instagram" />
-          <Icon style={{ margin: 'auto 10px', fontSize: 20 }} type="google" />
-        </div>
-      </Col>
-    </Row>
-  </Layout>
-);
+    </Layout>
+  )
+}
