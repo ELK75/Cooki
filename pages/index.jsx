@@ -6,7 +6,7 @@ import {
   Card,
   Button
 } from 'antd';
-import fetch from 'isomorphic-unfetch';
+
 import '../styles/styles.less';
 
 const { Content } = Layout;

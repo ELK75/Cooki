@@ -36,4 +36,5 @@ module.exports = withLess({
         }
         return config
     },
+    pageExtensions: ['js', 'jsx']
 })

@@ -12,7 +12,7 @@ const constructCall = query => {
 export default async(req, res) => {
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
-    const result = await fetch(constructCall({ 'query': 'burger', 'number': '5' }));
+    const result = await fetch(constructCall(req.query));
     const json = await result.json();
 
     let recipeList = []

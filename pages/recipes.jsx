@@ -1,12 +1,10 @@
 import {
-    Icon,
-    Row,
-    Col,
     Layout,
-    Card,
-    Button
 } from 'antd';
-import Link from 'next/link'
+
+import fetch from 'isomorphic-unfetch';
+
+import { server } from '../config/index';
 
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
@@ -27,9 +25,7 @@ export default function Recipes({ recipes }) {
 }
 
 Recipes.getInitialProps = async () => {
-    const res = await (fetch('http://localhost:3000/api/user'));
+    const res = await (fetch(`${server}/api/user?query=burger&number=10`));
     const json = await res.json();
-    console.log(res);
-    console.log(json);
     return { recipes: json };
 }
