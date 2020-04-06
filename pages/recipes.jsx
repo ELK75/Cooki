@@ -25,7 +25,7 @@ export default function Recipes({ recipes }) {
 }
 
 Recipes.getInitialProps = async () => {
-    const res = await (fetch(`${server}/api/user?query=burger&number=10`));
+    const res = await (fetch(`${server}/api/spoonacular?query=burger&number=10`));
     const json = await res.json();
     return { recipes: json };
 }
