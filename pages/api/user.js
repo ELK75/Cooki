@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 
 // Connection URL
 const dbUrl = require('../../config/index').dbUrl;
-
-const googleAcountInfo = require('../../config/google-util').getGoogleAccountFromCode;
+const DBGet = require('../../util/DBQueries').DBGet;
 
 
 let connectToDB = (dbName) => {
@@ -41,11 +40,21 @@ export default async(req, res) => {
     const users = db.collection('user');
 
     if (req.method === 'POST') {
-        users.insertMany([{ a: 1 }, { b: 2 }]);
-        res.json({ message: 'success' });
+        // users.insertMany([{ a: 1 }, { b: 2 }]);
+        // res.json({ message: 'success' });
+        let user = JSON.parse(req.body);
+        let userQuery = await DBGet(users, {'email': user.email});
+        if (userQuery.length == 0) {
+            users.insertOne({'email': user.email, 'favorites': [], 'image': user.image, 'name': user.name})
+        }
+        jwt.sign({ 'email': user.email }, 'secretkey', (err, token) => {
+            console.log({token});
+            res.json({
+                token
+            })
+        });
     } else {
-        let account = await googleAcountInfo(req.params);
-        console.log(account);
+        console.log(req.cookies.token);
         // jwt.sign({ user }, 'secretkey', (err, token) => {
         //     res.json({
         //         token

@@ -18,18 +18,17 @@ export default function Recipes({ recipes }) {
             <Layout className="recipe-layout">
                 <Header />
                 <Navbar />
-                <div style={{padding: '0 50px'}}>
+                {/* <div style={{padding: '0 50px'}}>
                     <RecipeCardList cards={recipes} />
-                </div>
+                </div> */}
             </Layout>
         </div>
     )
 }
 
 Recipes.getInitialProps = async () => {
-    let query = queryString.parse(window.location.href);
-    console.log(query);
-    const res = await (fetch(`${server}/api/spoonacular?query=burger&number=10`));
-    const json = await res.json();
-    return { recipes: json };
+    return {}
+    // const res = await (fetch(`${server}/api/spoonacular?query=burger&number=5`));
+    // const json = await res.json();
+    // return { recipes: json };
 }

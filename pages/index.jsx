@@ -7,7 +7,8 @@ import {
   Button
 } from 'antd';
 
-import { useEffect, useState } from 'react';
+import Router from 'next/router';
+import Cookies from 'js-cookie';
 
 import '../styles/styles.less';
 
@@ -22,16 +23,25 @@ import GoogleLogin from 'react-google-login';
 
 export default function Index() {
 
-  let [googleUrl, setGoogleUrl] = useState('');
-  
-  useEffect(() => {
-    fetch(`${server}/api/google`).then(
-      res => res.text()).then(
-        res => setGoogleUrl(res));
-  }, [])
+  const responseGoogle = async(response) => {
+    let profile = response.profileObj;
+    let user = {
+      image: profile.imageUrl,
+      email: profile.email,
+      name: profile.name
+    };
+    
+    Router.push('/recipes');
 
-  const responseGoogle = (response) => {
-    console.log(response);
+    let res = await fetch(`${server}/api/user`, {
+      method: 'POST',
+      body: JSON.stringify(user)
+    });
+    let json = await res.json();
+    Cookies.set('token', json.token, { expires: 7});
+
+    fetch(`${server}/api/user`)
+
   }
 
   return (
