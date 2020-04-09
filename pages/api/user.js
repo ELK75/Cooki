@@ -1,7 +1,10 @@
 const MongoClient = require('mongodb').MongoClient;
+const jwt = require('jsonwebtoken');
 
 // Connection URL
 const dbUrl = require('../../config/index').dbUrl;
+
+const googleAcountInfo = require('../../config/google-util').getGoogleAccountFromCode;
 
 
 let connectToDB = (dbName) => {
@@ -17,6 +20,22 @@ let connectToDB = (dbName) => {
     })
 }
 
+function verifyToken(req, res, next) {
+    // Get auth header value
+    const bearerHeader = req.headers['authorization'];
+    // Check if bearer is undefined
+    if (typeof bearerHeader !== 'undefined') {
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        next();
+    } else {
+        // Forbidden
+        res.sendStatus(403);
+    }
+
+}
+
 export default async(req, res) => {
     let db = await connectToDB('cooki');
     const users = db.collection('user');
@@ -25,8 +44,15 @@ export default async(req, res) => {
         users.insertMany([{ a: 1 }, { b: 2 }]);
         res.json({ message: 'success' });
     } else {
-        users.find({ 'a': 1 }).toArray(function (err, docs) {
-            res.json(docs);
-        });
+        let account = await googleAcountInfo(req.params);
+        console.log(account);
+        // jwt.sign({ user }, 'secretkey', (err, token) => {
+        //     res.json({
+        //         token
+        //     })
+        // })
+        // users.find({ 'a': 1 }).toArray(function (err, docs) {
+        //     res.json(docs);
+        // });
     }
 }

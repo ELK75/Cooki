@@ -3,6 +3,8 @@ import {
 } from 'antd';
 
 import fetch from 'isomorphic-unfetch';
+const queryString = require('query-string');
+
 
 import { server } from '../config/index';
 
@@ -25,6 +27,8 @@ export default function Recipes({ recipes }) {
 }
 
 Recipes.getInitialProps = async () => {
+    let query = queryString.parse(window.location.href);
+    console.log(query);
     const res = await (fetch(`${server}/api/spoonacular?query=burger&number=10`));
     const json = await res.json();
     return { recipes: json };
