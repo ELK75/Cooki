@@ -1,9 +1,11 @@
 import {
     Layout,
+    Input
 } from 'antd';
 
+const { Search } = Input;
+
 import fetch from 'isomorphic-unfetch';
-const queryString = require('query-string');
 
 
 import { server } from '../config/index';
@@ -12,23 +14,58 @@ import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import RecipeCardList from '../components/RecipeCardList';
 
-export default function Recipes({ recipes }) {
+import { useState, useEffect } from 'react';
+
+export default function Recipes() {
+
+    const [recipes, setRecipes] = useState([]);
+
+    const searchRecipes = async (recipe, number = 10) => {
+        const res = await (fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}`));
+        const json = await res.json();
+        return json;
+    }
+
+    useEffect(() => {
+        const fetchData = async() => {
+            let data = await searchRecipes('cookies');
+            return data;
+        }
+        fetchData().then(data => setRecipes(data));
+    }, [])
+
+    const searchSetRecipes = async(value) => {
+        let data = await searchRecipes(value);
+        setRecipes(data);
+    }
+
     return (
         <div>
             <Layout className="recipe-layout">
                 <Header />
                 <Navbar />
-                {/* <div style={{padding: '0 50px'}}>
+                <Search
+                    placeholder="Search for Recipes"
+                    enterButton="Search"
+                    size="large"
+                    onSearch={value => searchSetRecipes(value)}
+                    style={{width: '80%', margin: '0 auto'}}
+                />
+                <div style={{padding: '0 50px'}}>
                     <RecipeCardList cards={recipes} />
-                </div> */}
+                </div>
             </Layout>
         </div>
     )
 }
 
-Recipes.getInitialProps = async () => {
-    return {}
-    // const res = await (fetch(`${server}/api/spoonacular?query=burger&number=5`));
-    // const json = await res.json();
-    // return { recipes: json };
-}
+// Recipes.getInitialProps = async() => {
+//     const searchRecipes = async(recipe, number = 10) => {
+//         const res = await (fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}`));
+//         const json = await res.json();
+//         return json;
+//     }
+
+//     console.log(searchRecipes);
+//     return { searchRecipes }
+// }

@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-unfetch';
-import { spoonacular } from '../../private/keys.json';
+import keys from '../../private/keys.js';
+let spoonacular = keys.spoonacular;
 
 const constructCall = query => {
     let stringQuery = `https://api.spoonacular.com/recipes/search?apiKey=${spoonacular}&`;
