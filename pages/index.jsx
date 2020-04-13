@@ -47,7 +47,7 @@ export default function Index() {
   return (
     <Layout>
       <Header />
-      <Navbar />
+      {/* <Navbar /> */}
       <Row justify="space-around" type="flex">
         <Col span={20} style={{ paddingTop: '10px', paddingBottom: '30px', minHeight: '500px' }}>
           <Content>

@@ -20,7 +20,7 @@ export default function Recipes() {
 
     const [recipes, setRecipes] = useState([]);
 
-    const searchRecipes = async (recipe, number = 10) => {
+    const searchRecipes = async (recipe, number=1) => {
         const res = await (fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}`));
         const json = await res.json();
         return json;

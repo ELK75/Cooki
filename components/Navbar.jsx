@@ -11,11 +11,11 @@ export default () => (
             <div style={{ width: 'fit-content', margin: 'auto 0px' }}>
                 <Link href="/">
                     <a>
-                        Home
+                        Favorites
             </a>
                 </Link>
             </div>
-            <div style={{ width: 'fit-content', margin: 'auto 0px' }}>
+            {/* <div style={{ width: 'fit-content', margin: 'auto 0px' }}>
                 <Link href="/">
                     <a>
                         About Us
@@ -28,7 +28,7 @@ export default () => (
                         Login / Signup
             </a>
                 </Link>
-            </div>
+            </div> */}
         </Col>
     </Row>
 )
