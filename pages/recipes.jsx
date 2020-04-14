@@ -7,7 +7,6 @@ const { Search } = Input;
 
 import fetch from 'isomorphic-unfetch';
 
-
 import { server } from '../config/index';
 
 import Header from '../components/Header';
@@ -20,8 +19,8 @@ export default function Recipes() {
 
     const [recipes, setRecipes] = useState([]);
 
-    const searchRecipes = async (recipe, number=1) => {
-        const res = await (fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}`));
+    const searchRecipes = async (recipe, number=20) => {
+        const res = await fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}`);
         const json = await res.json();
         return json;
     }
@@ -29,6 +28,16 @@ export default function Recipes() {
     useEffect(() => {
         const fetchData = async() => {
             let data = await searchRecipes('cookies');
+            let likes = await fetch(`${server}/api/like`);
+            likes = await likes.json();
+            let likeIDs = likes.map((val) => val.id);
+            for (const recipe of data) {
+                if (likeIDs.includes(recipe.id)) {
+                    recipe.favorited = true;
+                } else {
+                    recipe.favorited = false;
+                }
+            }
             return data;
         }
         fetchData().then(data => setRecipes(data));

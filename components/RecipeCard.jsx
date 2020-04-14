@@ -10,21 +10,45 @@ import {
 
 const { Paragraph } = Typography;
 
-import { useState } from 'react';
+import { server } from '../config/index';
 
-export default ({ imageUrl, title, description, url }) => {
+import { useState, useEffect } from 'react';
 
-    const [liked, setLiked] = useState(false);
+export default ({ imageUrl, title, description, url, id, favorited}) => {
+
+    const [liked, setLiked] = useState(favorited);
 
     function getMarkup() {
         return { __html: description }
     }
 
-    let color;
+    useEffect(() => {
+        if (liked) {
+            fetch(`${server}/api/like`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    image: imageUrl,
+                    title,
+                    summary: description,
+                    sourceUrl: url,
+                    id,
+                    favorited: true
+                })
+            })
+        } else {
+            fetch(`${server}/api/like`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id
+                })
+            })
+        }
+    }, [liked])
 
     let recipeLike = () => {
         setLiked(!liked);
-        color = liked === true ? 'red' : '';
     }
 
     let likeButton = (liked) ? 

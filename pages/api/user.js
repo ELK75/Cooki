@@ -1,24 +1,9 @@
-const MongoClient = require('mongodb').MongoClient;
 const jwt = require('jsonwebtoken');
 
 // Connection URL
-const dbUrl = require('../../config/index').dbUrl;
 const DBGet = require('../../util/DBQueries').DBGet;
+const connectToDB = require('../../util/DBQueries').connectToDB;
 const secret = require('../../private/keys.js').default.jwt;
-
-
-let connectToDB = (dbName) => {
-    // Use connect method to connect to the server
-    return new Promise((resolve, reject) => {
-        MongoClient.connect(dbUrl, function (err, client) {
-            if (err !== null) { reject(err); }
-            else {
-                console.log("Connected successfully to server");
-            }
-            resolve(client.db(dbName));
-        });
-    })
-}
 
 export default async(req, res) => {
     let db = await connectToDB('cooki');

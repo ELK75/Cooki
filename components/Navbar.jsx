@@ -9,7 +9,7 @@ export default () => (
     <Row justify="space-around" type="flex">
         <Col span={20} style={{ textAlign: 'right', height: 50, display: 'flex', justifyContent: 'flex-end', textTransform: 'uppercase' }}>
             <div style={{ width: 'fit-content', margin: 'auto 0px' }}>
-                <Link href="/">
+                <Link href="/favorites">
                     <a>
                         Favorites
             </a>
