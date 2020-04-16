@@ -22,8 +22,8 @@ export default ({ imageUrl, title, description, url, id, favorited}) => {
         return { __html: description }
     }
 
-    useEffect(() => {
-        if (liked) {
+    let recipeLike = () => {
+        if (!liked) {
             fetch(`${server}/api/like`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -45,11 +45,10 @@ export default ({ imageUrl, title, description, url, id, favorited}) => {
                 })
             })
         }
-    }, [liked])
 
-    let recipeLike = () => {
         setLiked(!liked);
     }
+
 
     let likeButton = (liked) ? 
         <HeartTwoTone style={{ fontSize: '20px' }} twoToneColor="#ff4c3b" onClick={() => recipeLike()} /> :

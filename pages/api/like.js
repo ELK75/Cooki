@@ -27,13 +27,13 @@ export default async (req, res) => {
 
     if (req.method === 'POST') {
         users.updateOne({email: decoded.email},
-            { $set: { favorites: [...currentLikes, like] } });
+            { $push : { favorites: like } });
         res.json({message: "success"});
     } else if (req.method === "DELETE") {
         let likeID = like.id;
-        let removedFavorites = currentLikes.filter((val) => val.id !== likeID);
+        // let removedFavorites = currentLikes.filter(val => val.id !== likeID);
         users.updateOne({ email: decoded.email },
-            { $set: { favorites: removedFavorites } });
+            { $pull: { favorites: { id: likeID } } });
         res.json({ message: "success" });
     } else if (req.method === "GET") {
         res.json(currentUser.favorites);

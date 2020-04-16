@@ -14,9 +14,6 @@ export function connectToDB(dbName) {
     return new Promise((resolve, reject) => {
         MongoClient.connect(dbUrl, function (err, client) {
             if (err !== null) { reject(err); }
-            else {
-                console.log("Connected successfully to server");
-            }
             resolve(client.db(dbName));
         });
     })
