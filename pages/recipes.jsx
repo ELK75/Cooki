@@ -1,6 +1,7 @@
 import {
     Layout,
-    Input
+    Input,
+    Button
 } from 'antd';
 
 const { Search } = Input;
@@ -17,35 +18,50 @@ import { useState, useEffect } from 'react';
 
 export default function Recipes() {
 
-    const [recipes, setRecipes] = useState([]);
+    let results = 8;
 
-    const searchRecipes = async (recipe, number=5) => {
-        const res = await fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}`);
+    const [recipes, setRecipes] = useState([]);
+    const [offset, setOffset] = useState(0);
+
+    const searchRecipes = async (recipe, number, offset) => {
+        const res = await fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}&offset=${offset}`);
         const json = await res.json();
         return json;
     }
 
+    const getData = async() => {
+        let data = await searchRecipes('cookies', results, offset);
+        let likes = await fetch(`${server}/api/like`);
+        likes = await likes.json();
+        let likeIDs = likes.map((val) => val.id);
+        for (const recipe of data) {
+            if (likeIDs.includes(recipe.id)) {
+                recipe.favorited = true;
+            } else {
+                recipe.favorited = false;
+            }
+        }
+        
+        return data;
+    }
+
     useEffect(() => {
         const fetchData = async() => {
-            let data = await searchRecipes('cookies');
-            let likes = await fetch(`${server}/api/like`);
-            likes = await likes.json();
-            let likeIDs = likes.map((val) => val.id);
-            for (const recipe of data) {
-                if (likeIDs.includes(recipe.id)) {
-                    recipe.favorited = true;
-                } else {
-                    recipe.favorited = false;
-                }
-            }
-            return data;
+            return getData();
         }
-        fetchData().then(data => setRecipes(data));
-    }, [])
+        fetchData().then(data => {
+            setRecipes(oldRecipes => [...oldRecipes, ...data])
+        });
+    }, [offset])
+
 
     const searchSetRecipes = async(value) => {
         let data = await searchRecipes(value);
         setRecipes(data);
+    }
+
+    const loadResults = async() => {
+        setOffset(oldOffset => oldOffset + results);
     }
 
     return (
@@ -63,18 +79,10 @@ export default function Recipes() {
                 <div style={{padding: '0 50px'}}>
                     <RecipeCardList cards={recipes} />
                 </div>
+                <div style={{textAlign: 'center', margin: '3em 0 5em 0'}}>
+                    <Button type="primary" style={{width: '200px'}} onClick={loadResults}>Load More Results</Button>
+                </div>
             </Layout>
         </div>
     )
 }
-
-// Recipes.getInitialProps = async() => {
-//     const searchRecipes = async(recipe, number = 10) => {
-//         const res = await (fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}`));
-//         const json = await res.json();
-//         return json;
-//     }
-
-//     console.log(searchRecipes);
-//     return { searchRecipes }
-// }
