@@ -1,5 +1,3 @@
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
-
 const MongoClient = require('mongodb').MongoClient;
 const jwt = require('jsonwebtoken');
 

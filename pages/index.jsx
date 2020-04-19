@@ -1,10 +1,7 @@
 import {
-  Icon,
   Row,
   Col,
-  Layout,
-  Card,
-  Button
+  Layout
 } from 'antd';
 
 import Router from 'next/router';

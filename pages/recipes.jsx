@@ -1,7 +1,8 @@
 import {
     Layout,
     Input,
-    Button
+    Button,
+    Spin
 } from 'antd';
 
 const { Search } = Input;
@@ -56,6 +57,7 @@ export default function Recipes() {
 
 
     const searchSetRecipes = async(value) => {
+        setRecipes([]);
         let data = await searchRecipes(value);
         setRecipes(data);
     }
@@ -77,6 +79,11 @@ export default function Recipes() {
                     style={{width: '80%', margin: '0 auto'}}
                 />
                 <div style={{padding: '0 50px'}}>
+                    {recipes.length === 0 &&
+                        <div style={{textAlign: 'center', paddingTop: '50px'}}>
+                            <Spin />
+                        </div>
+                    }
                     <RecipeCardList cards={recipes} />
                 </div>
                 <div style={{textAlign: 'center', margin: '3em 0 5em 0'}}>
