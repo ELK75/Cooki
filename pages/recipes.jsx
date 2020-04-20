@@ -26,8 +26,12 @@ export default function Recipes() {
 
     const searchRecipes = async (recipe, number, offset) => {
         const res = await fetch(`${server}/api/spoonacular?query=${recipe}&number=${number}&offset=${offset}`);
-        const json = await res.json();
-        return json;
+        if (res.status != 200) {
+            console.log(res);
+        } else {
+            const json = await res.json();
+            return json;
+        }
     }
 
     const getData = async() => {
@@ -58,8 +62,11 @@ export default function Recipes() {
 
     const searchSetRecipes = async(value) => {
         setRecipes([]);
-        let data = await searchRecipes(value);
-        setRecipes(data);
+        try {
+            let data = await searchRecipes(value, results, offset);
+            setRecipes(data);
+        } catch (e) {
+        }
     }
 
     const loadResults = async() => {

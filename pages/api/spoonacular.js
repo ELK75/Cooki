@@ -16,6 +16,11 @@ export default async(req, res) => {
     const result = await fetch(constructCall(req.query));
     const json = await result.json();
 
+    if (typeof(json.results) === 'undefined') {
+        res.statusCode = json.status;
+        res.send(JSON.stringify(json.message));
+    }
+
     let recipeList = []
     for (let recipe of json.results) {
         let recipeRes = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${spoonacular}&`);
