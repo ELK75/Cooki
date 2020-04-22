@@ -13,6 +13,7 @@ const constructCall = query => {
 export default async(req, res) => {
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
+    console.log(req.query);
     const result = await fetch(constructCall(req.query));
     const json = await result.json();
 
@@ -21,12 +22,10 @@ export default async(req, res) => {
         res.send(JSON.stringify(json.message));
     }
 
-    let recipeList = []
-    for (let recipe of json.results) {
-        let recipeRes = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${spoonacular}&`);
-        let recipeJSON = await recipeRes.json();
-        recipeList.push(recipeJSON);
-    }
+    let ids = json.results.map(entry => entry.id);
 
-    res.send(JSON.stringify(recipeList));
+    let recipeRes = await fetch(`https://api.spoonacular.com/recipes/informationBulk?ids=${ids}&apiKey=${spoonacular}`);
+    let recipeJSON = await recipeRes.json();
+
+    res.json(recipeJSON);
 }
