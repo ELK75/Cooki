@@ -7,9 +7,14 @@ import {
 const { Header } = Layout;
 import Link from 'next/link';
 
+import { useRouter } from 'next/router'
+
 import { GoogleLogout } from 'react-google-login'
 
 export default () => {
+
+    const router = useRouter();
+    let atHomeScreen = router.pathname === '/';
 
     const logout = () => {
 
@@ -32,16 +37,18 @@ export default () => {
                         </Col>
                         <Col span={12} md={12} xs={0}>
                             <span className="ml-30 float-right">
-                                <Link href="/">
+                                {!atHomeScreen &&
+                                    <Link href="/">
                                         <GoogleLogout
                                             clientId="974739244775-fh6n38t1f4jfqfu21rbeus2k5nikq17r.apps.googleusercontent.com"
                                             buttonText="Logout of Cooki"
                                             onLogoutSuccess={logout}
                                             render={renderProps => (
-                                                <a onClick={renderProps.onClick} disabled={renderProps.disabled} style={{fontSize: '2em', fontWeight: '200'}}>Logout</a>
+                                                <a onClick={renderProps.onClick} disabled={renderProps.disabled} style={{ fontSize: '1.8em', fontWeight: '200' }}>Logout</a>
                                             )}
                                         />
-                                </Link>
+                                    </Link>
+                                }
                             </span>
                         </Col>
                     </Row>

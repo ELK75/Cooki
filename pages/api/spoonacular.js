@@ -3,10 +3,11 @@ import keys from '../../private/keys.js';
 let spoonacular = keys.spoonacular;
 
 const constructCall = query => {
-    let stringQuery = `https://api.spoonacular.com/recipes/search?apiKey=${spoonacular}&`;
+    let stringQuery = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${spoonacular}&addRecipeInformation=true&`;
     for (const attribute in query) {
         stringQuery += attribute + '=' + query[attribute] + '&';
     }
+    console.log(stringQuery);
     return stringQuery;
 }
 
@@ -17,15 +18,15 @@ export default async(req, res) => {
     const result = await fetch(constructCall(req.query));
     const json = await result.json();
 
-    if (typeof(json.results) === 'undefined') {
-        res.statusCode = json.status;
-        res.send(JSON.stringify(json.message));
-    }
+    // if (typeof(json.results) === 'undefined') {
+    //     res.statusCode = json.status;
+    //     res.send(JSON.stringify(json.message));
+    // }
 
-    let ids = json.results.map(entry => entry.id);
+    // let ids = json.results.map(entry => entry.id);
 
-    let recipeRes = await fetch(`https://api.spoonacular.com/recipes/informationBulk?ids=${ids}&apiKey=${spoonacular}`);
-    let recipeJSON = await recipeRes.json();
+    // let recipeRes = await fetch(`https://api.spoonacular.com/recipes/informationBulk?ids=${ids}&apiKey=${spoonacular}`);
+    // let recipeJSON = await recipeRes.json();
 
-    res.json(recipeJSON);
+    res.json(json.results);
 }

@@ -16,22 +16,26 @@ import Navbar from '../components/Navbar';
 import Filter from '../components/Filter';
 import RecipeCardList from '../components/RecipeCardList';
 
+import useDidMountEffect from '../components/useDidMountEffect';
+
 const queryString = require('query-string');
 
 import { useState, useEffect } from 'react';
 
 export default function Recipes() {
 
-    let results = 0;
+    let results = 8;
 
     const [recipes, setRecipes] = useState([]);
-    const [offset, setOffset] = useState(0);
-    const [query, setQuery] = useState('cookies');
-    const [options, setOptions] = useState({});
+    const [recipeData, setRecipeData] = useState({
+        query: 'cookie',
+        offset: 0,
+        options: {}
+    });
 
-    const searchRecipes = async() => {
-        let optionStr = queryString.stringify(options);
-        const res = await fetch(`${server}/api/spoonacular?query=${query}&number=${results}&offset=${offset}&${optionStr}`);
+    const searchRecipes = async () => {
+        let optionStr = queryString.stringify(recipeData.options);
+        const res = await fetch(`${server}/api/spoonacular?query=${recipeData.query}&number=${results}&offset=${recipeData.offset}&${optionStr}`);
         if (res.status != 200) {
             console.log(res);
         } else {
@@ -40,7 +44,7 @@ export default function Recipes() {
         }
     }
 
-    const getData = async() => {
+    const getData = async () => {
         let data = await searchRecipes();
         let likes = await fetch(`${server}/api/like`);
         likes = await likes.json();
@@ -52,35 +56,40 @@ export default function Recipes() {
                 recipe.favorited = false;
             }
         }
-        
+
         return data;
     }
 
     useEffect(() => {
-        const fetchData = async() => {
+        const fetchData = async () => {
             return getData();
         }
-        // setRecipes([])
-        // fetchData().then(data => {
-        //     console.log(data);
-        //     setRecipes(oldRecipes => [...oldRecipes, ...data])
-        // });
-    }, [offset, query, options])
+        fetchData().then(data => {
+            if (recipeData.offset === 0) {
+                setRecipes([...data])
+            } else {
+                setRecipes(oldRecipes => [...oldRecipes, ...data]);
+            }
+        });
+    }, [recipeData])
 
 
-    const searchSetRecipes = async(value, options={}) => {
-        setQuery(value);
-        setOptions(options);
-        setRecipes([]);
+    const searchSetRecipes = async (value, options = {}) => {
+        setRecipeData({
+            query: value,
+            offset: 0,
+            options
+        });
+
         try {
-            let data = await searchRecipes(value, results, offset, options);
+            let data = await searchRecipes(value, options);
             setRecipes(data);
         } catch (e) {
         }
     }
 
-    const loadResults = async() => {
-        setOffset(oldOffset => oldOffset + results);
+    const loadResults = async () => {
+        setRecipeData({...recipeData, offset: recipeData.offset + results});
     }
 
     return (
@@ -89,16 +98,16 @@ export default function Recipes() {
                 <Header />
                 <Navbar />
                 <Filter recipeSearch={searchSetRecipes} />
-                <div style={{padding: '0 50px'}}>
+                <div style={{ padding: '0 50px' }}>
                     {recipes.length === 0 &&
-                        <div style={{textAlign: 'center', paddingTop: '50px'}}>
+                        <div style={{ textAlign: 'center', paddingTop: '50px' }}>
                             <Spin />
                         </div>
                     }
                     <RecipeCardList cards={recipes} />
                 </div>
-                <div style={{textAlign: 'center', margin: '3em 0 5em 0'}}>
-                    <Button type="primary" style={{width: '200px'}} onClick={loadResults}>Load More Results</Button>
+                <div style={{ textAlign: 'center', margin: '3em 0 5em 0' }}>
+                    <Button type="primary" style={{ width: '200px' }} onClick={loadResults}>Load More Results</Button>
                 </div>
             </Layout>
         </div>
